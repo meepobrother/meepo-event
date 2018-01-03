@@ -11,6 +11,7 @@ export class EventService {
     checkVersion(version: number) {
         let cacheVersion = this.store.get(VERSION, 0);
         if (cacheVersion === version) {
+            console.log('版本号没有变化');
         } else {
             this.store.set(VERSION, version);
             this.store.clearAll();

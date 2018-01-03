@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { EventsModule } from '../../src/app/app';
+import { EventModule } from '../../src/app/app';
 
 
 @NgModule({
@@ -10,7 +10,7 @@ import { EventsModule } from '../../src/app/app';
   ],
   imports: [
     BrowserModule,
-    EventsModule,
+    EventModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { EventService } from './events';
 import { WinEventService } from './win.event';
 import { IntervalService } from './interval';
@@ -10,15 +10,22 @@ import { SubjectService } from './subject';
     ],
     exports: [],
     declarations: [],
-    providers: [
-        EventService,
-        WinEventService,
-        IntervalService,
-        TimeOutService,
-        SubjectService
-    ],
+    providers: [],
 })
-export class EventsModule { }
+export class EventModule {
+    public static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: EventModule,
+            providers: [
+                EventService,
+                WinEventService,
+                IntervalService,
+                TimeOutService,
+                SubjectService
+            ]
+        }
+    }
+}
 export { EventService } from './events';
 export { WinEventService } from './win.event';
 // 事件添加及清理

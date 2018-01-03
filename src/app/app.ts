@@ -32,3 +32,4 @@ export { WinEventService } from './win.event';
 export { IntervalService } from './interval';
 export { TimeOutService } from './timeout';
 export { SubjectService } from './subject';
+export { VERSION, VERSION_CHANGE } from './dbs';

@@ -1,9 +1,22 @@
 import { Injectable } from '@angular/core';
-
+import { StoreService } from 'meepo-store';
+import { VERSION, VERSION_CHANGE } from './dbs';
 @Injectable()
 export class EventService {
     private _channels: any = [];
-    constructor() { }
+    constructor(
+        public store: StoreService
+    ) { }
+
+    checkVersion(version: number) {
+        let cacheVersion = this.store.get(VERSION, 0);
+        if (cacheVersion === version) {
+        } else {
+            this.store.set(VERSION, version);
+            this.store.clearAll();
+            this.publish(VERSION_CHANGE, version);
+        }
+    }
 
     subscribe(topic: string, ...handlers: Function[]) {
         if (!this._channels[topic]) {

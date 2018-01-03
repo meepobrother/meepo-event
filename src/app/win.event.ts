@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EventService } from './events';
+import { StoreService } from 'meepo-store';
 @Injectable()
 export class WinEventService {
     constructor(
-        public event: EventService
+        public event: EventService,
+        public store: StoreService
     ) {
         setTimeout(() => {
             this.setUpEvents();

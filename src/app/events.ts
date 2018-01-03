@@ -13,8 +13,8 @@ export class EventService {
         if (cacheVersion === version) {
             console.log('版本号没有变化');
         } else {
-            this.store.set(VERSION, version);
             this.store.clearAll();
+            this.store.set(VERSION, version);
             this.publish(VERSION_CHANGE, version);
         }
     }

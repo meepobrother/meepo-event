@@ -1,6 +1,6 @@
 {
     "name": "meepo-event",
-    "version": "1.0.7",
+    "version": "1.0.1",
     "description": "runner for angular",
     "main": "./bundles/meepo.umd.js",
     "module": "./esm5/meepo.js",

@@ -34,6 +34,10 @@ export class EventService {
         return true;
     }
 
+    clearAll() {
+        this._channels = [];
+    }
+
     publish(topic: string, ...args: any[]) {
         var t = this._channels[topic];
         if (!t) {

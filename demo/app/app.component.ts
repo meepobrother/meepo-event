@@ -33,5 +33,8 @@ export class AppComponent {
     setTimeout(() => {
       this.event.publish('test', { id: 1 });
     }, 1000);
+    setTimeout(() => {
+      this.event.publish('test', { id: 1 });
+    }, 2000);
   }
 }

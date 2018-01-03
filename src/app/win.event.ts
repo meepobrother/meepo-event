@@ -22,11 +22,16 @@ export class WinEventService {
         });
     }
 
-    addWinEvent(name): this {
+    addWinEvent(name: string): this {
         window.addEventListener(name, (ev) => {
             this.event.publish(name, ev);
         }, false);
         return this;
     }
 
+    addEleEvent(ele: HTMLElement, name: string, id: string = '') {
+        ele.addEventListener(name, (ev) => {
+            this.event.publish(id + name, ev);
+        }, false);
+    }
 }

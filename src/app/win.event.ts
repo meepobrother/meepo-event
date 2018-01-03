@@ -28,12 +28,13 @@ export class WinEventService {
             this.event.publish(rename ? rename : name, ev);
         }, false);
     }
-
-    addVar(name: string, value: any, rename?: string) {
+    // 获取
+    getWinName(name: string, def: any, rename?: string) {
         name = `__meepo_${name}`;
-        window[name] = value;
+        window[name] = window[name] || def;
         if (rename) {
-            this.event.publish(rename, value);
+            this.event.publish(rename, window[name]);
         }
+        return window[name];
     }
 }

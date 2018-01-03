@@ -11,27 +11,21 @@ export class WinEventService {
     }
 
     setUpEvents() {
-        window.addEventListener('online', (ev) => {
-            this.event.publish('online', ev);
-        }, false);
-        window.addEventListener('offline', (ev) => {
-            this.event.publish('offline', ev);
-        }, false);
-        window.addEventListener('orientationchange', (ev) => {
-            this.event.publish('rotated', ev);
-        });
+        this.addWinEvent('online')
+            .addWinEvent('offline')
+            .addWinEvent('orientationchange', 'rotated');
     }
 
-    addWinEvent(name: string): this {
+    addWinEvent(name: string, rename?: string): this {
         window.addEventListener(name, (ev) => {
-            this.event.publish(name, ev);
+            this.event.publish(rename ? rename : name, ev);
         }, false);
         return this;
     }
 
-    addEleEvent(ele: HTMLElement, name: string, id: string = '') {
+    addEleEvent(ele: HTMLElement, name: string, rename?: string) {
         ele.addEventListener(name, (ev) => {
-            this.event.publish(id + name, ev);
+            this.event.publish(rename ? rename : name, ev);
         }, false);
     }
 }

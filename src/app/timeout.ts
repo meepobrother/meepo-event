@@ -7,19 +7,26 @@ export class TimeOutService {
 
     add(callback: Function, timeout: number): number {
         let timeoutId: number = setTimeout(callback, timeout);
-        this.timeouts.push(timeoutId);
+        this.addId(timeoutId);
         return timeoutId;
     }
 
-    clear(timeoutId: number) {
+    addId(id: number): this {
+        this.timeouts.push(id);
+        return this;
+    }
+
+    clear(timeoutId: number): this {
         let index = this.timeouts.indexOf(timeoutId);
         this.timeouts.splice(index, 1);
         clearTimeout(timeoutId);
+        return this;
     }
 
-    clearAll() {
+    clearAll(): this {
         this.timeouts.map(id => {
             this.clear(id);
         });
+        return this;
     }
 }

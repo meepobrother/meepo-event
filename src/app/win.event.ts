@@ -28,4 +28,12 @@ export class WinEventService {
             this.event.publish(rename ? rename : name, ev);
         }, false);
     }
+
+    addVar(name: string, value: any, rename?: string) {
+        name = `__meepo_${name}`;
+        window[name] = value;
+        if (rename) {
+            this.event.publish(rename, value);
+        }
+    }
 }

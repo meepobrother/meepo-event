@@ -25,20 +25,23 @@ export class AppComponent {
     this.event.subscribe('rotated', () => {
       console.log('rotated');
     });
-  }
-  test() {
+
     this.event.subscribe('test', (test) => {
       console.log(test);
     });
+
+    setTimeout(() => {
+      this.event.clearAll();
+    }, 3000);
+
+    this.test();
+  }
+  test() {
     setTimeout(() => {
       this.event.publish('test', { id: 1 });
     }, 1000);
     setTimeout(() => {
       this.event.publish('test', { id: 1 });
     }, 2000);
-
-    setTimeout(() => {
-      
-    });
   }
 }

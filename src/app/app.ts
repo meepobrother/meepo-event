@@ -10,4 +10,6 @@ import { EventService } from './events';
     ],
 })
 export class EventsModule { }
+export { EventService } from './events';
+
 

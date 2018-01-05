@@ -6,7 +6,7 @@ import { UtilService } from 'meepo-core';
 
 @Injectable()
 export class EventService {
-    private _channels: Map<string, Map<string,any>> = new Map();
+    private _channels: Map<string, Map<string, any>> = new Map();
     constructor(
         public store: StoreService,
         public uuid: UuidService,
@@ -53,9 +53,11 @@ export class EventService {
 
     publish(topic: string, ...args: any[]) {
         let responses: any[] = [];
-        this._channels.forEach((cha: Map<string,any>)=>{
+        this._channels.forEach((cha: Map<string, any>) => {
             let _to = cha.get(topic);
-            responses.push(_to(...args));
+            if (_to) {
+                responses.push(_to(...args));
+            }
         });
         return responses;
     }

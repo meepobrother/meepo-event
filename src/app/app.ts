@@ -6,12 +6,14 @@ import { TimeOutService } from './timeout';
 import { SubjectService } from './subject';
 import { StoreModule } from 'meepo-store';
 import { UuidModule } from 'meepo-uuid';
+import { MeepoCoreServiceModule } from 'meepo-core';
 
 
 @NgModule({
     imports: [
         StoreModule,
-        UuidModule
+        UuidModule,
+        MeepoCoreServiceModule
     ],
     exports: [],
     declarations: [],

@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { StoreService } from 'meepo-store';
 import { VERSION, VERSION_CHANGE } from './dbs';
+import { UuidService } from 'meepo-uuid';
+import { UtilService } from 'meepo-core';
+
 @Injectable()
 export class EventService {
-    private _channels: any = [];
+    private _channels: Map<string, Map<string,any>> = new Map();
     constructor(
-        public store: StoreService
+        public store: StoreService,
+        public uuid: UuidService,
+        public util: UtilService
     ) { }
 
     checkVersion(version: number) {
@@ -20,46 +25,37 @@ export class EventService {
     }
 
     subscribe(topic: string, ...handlers: Function[]) {
-        if (!this._channels[topic]) {
-            this._channels[topic] = [];
-        }
-        handlers.forEach((handler) => {
-            this._channels[topic].push(handler);
+        let ids = [];
+        handlers.map(han => {
+            let id = this.uuid.v1();
+            let map: Map<string, any> = new Map();
+            map.set(topic, han);
+            this._channels.set(id, map);
+            ids.push(id);
         });
+        return ids;
     }
 
-    unsubscribe(topic: string, handler: Function = null) {
-        let t = this._channels[topic];
-        if (!t) {
-            return false;
-        }
-        if (!handler) {
-            delete this._channels[topic];
-            return true;
-        }
-        let i = t.indexOf(handler);
-        if (i < 0) {
-            return false;
-        }
-        t.splice(i, 1);
-        if (!t.length) {
-            delete this._channels[topic];
+    unsubscribe(ids: any) {
+        if (this.util.isArray(ids)) {
+            ids.map(id => {
+                this._channels.delete(id);
+            });
+        } else {
+            this._channels.delete(ids);
         }
         return true;
     }
 
     clearAll() {
-        this._channels = [];
+        this._channels = new Map();
     }
 
     publish(topic: string, ...args: any[]) {
-        var t = this._channels[topic];
-        if (!t) {
-            return null;
-        }
         let responses: any[] = [];
-        t.forEach((handler: any) => {
-            responses.push(handler(...args));
+        this._channels.forEach((cha: Map<string,any>)=>{
+            let _to = cha.get(topic);
+            responses.push(_to(...args));
         });
         return responses;
     }

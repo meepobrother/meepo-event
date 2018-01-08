@@ -24,7 +24,7 @@ export class EventService {
         }
     }
 
-    subscribe(topic: string, ...handlers: Function[]) {
+    subscribe(topic: any, ...handlers: Function[]) {
         let ids = [];
         handlers.map(han => {
             let id = this.uuid.v1();

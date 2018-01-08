@@ -51,7 +51,7 @@ export class EventService {
         this._channels = new Map();
     }
 
-    publish(topic: string, ...args: any[]) {
+    publish(topic: any, ...args: any[]) {
         let responses: any[] = [];
         this._channels.forEach((cha: Map<string, any>) => {
             let _to = cha.get(topic);

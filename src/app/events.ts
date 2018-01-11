@@ -36,6 +36,15 @@ export class EventService {
         return ids;
     }
 
+    subscribeWaite(from: any, to: any) {
+        let id = this.subscribe(from, (res) => {
+            this.unsubscribe(id);
+            this.publish(to, {
+                from: res
+            });
+        });
+    }
+
     unsubscribe(ids: any) {
         if (this.util.isArray(ids)) {
             ids.map(id => {

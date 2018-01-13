@@ -40,3 +40,4 @@ export { IntervalService } from './interval';
 export { TimeOutService } from './timeout';
 export { SubjectService } from './subject';
 export { VERSION, VERSION_CHANGE } from './dbs';
+export * from './socket/index';

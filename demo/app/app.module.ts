@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, EventEmitter } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
 import { AppComponent } from './app.component';
-import { EventModule } from '../../src/app/app';
+import { EventModule, SocketRoom, SocketModule } from '../../src/app/app';
+import { IndexModule } from './index/index';
 
 
 @NgModule({
@@ -10,10 +13,16 @@ import { EventModule } from '../../src/app/app';
   ],
   imports: [
     BrowserModule,
-    EventModule,
+    EventModule.forRoot(),
+    RouterModule.forRoot([{
+      path: '',
+      pathMatch: 'full',
+      redirectTo: 'index'
+    }], { useHash: true }),
+    IndexModule,
+    SocketModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

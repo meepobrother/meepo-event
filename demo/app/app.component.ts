@@ -1,9 +1,10 @@
 import {
   Component, OnInit, ChangeDetectionStrategy,
-  ViewChild, ElementRef, ChangeDetectorRef
+  ViewChild, ElementRef, ChangeDetectorRef, Injector
 } from '@angular/core';
-import { EventService, WinEventService } from '../../src/app/app';
-
+import { SocketService } from '../../src/app/app';
+import { ROUTES } from '@angular/router';
+let i: number = 0;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,37 +12,11 @@ import { EventService, WinEventService } from '../../src/app/app';
 })
 export class AppComponent {
   constructor(
-    public event: EventService,
-    public winEvent: WinEventService
+    public socket: SocketService
   ) {
-    // 监听网络变化
-    this.event.subscribe('online', () => {
-      console.log('online');
-    });
-    this.event.subscribe('offline', () => {
-      console.log('offline');
-    });
-    // 监听翻转手机
-    this.event.subscribe('rotated', () => {
-      console.log('rotated');
-    });
-
-    this.event.subscribe('test', (test) => {
-      console.log(test);
-    });
-
-    setTimeout(() => {
-      this.event.clearAll();
-    }, 3000);
-
-    this.test();
-  }
-  test() {
-    setTimeout(() => {
-      this.event.publish('test', { id: 1 });
+    setInterval(() => {
+      this.socket.broadcast({ test: 'test' + i });
+      i++;
     }, 1000);
-    setTimeout(() => {
-      this.event.publish('test', { id: 1 });
-    }, 2000);
   }
 }

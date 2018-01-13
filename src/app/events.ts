@@ -11,7 +11,11 @@ export class EventService {
         public store: StoreService,
         public uuid: UuidService,
         public util: UtilService
-    ) { }
+    ) {
+        if (window['EventService']) {
+            this._channels = window['EventService'];
+        }
+    }
 
     checkVersion(version: number) {
         let cacheVersion = this.store.get(VERSION, 0);
@@ -33,6 +37,7 @@ export class EventService {
             this._channels.set(id, map);
             ids.push(id);
         });
+        window['EventService'] = this._channels;
         return ids;
     }
 
@@ -53,11 +58,13 @@ export class EventService {
         } else {
             this._channels.delete(ids);
         }
+        window['EventService'] = this._channels;
         return true;
     }
 
     clearAll() {
         this._channels = new Map();
+        window['EventService'] = this._channels;
     }
 
     publish(topic: any, ...args: any[]) {
@@ -68,6 +75,7 @@ export class EventService {
                 responses.push(_to(...args));
             }
         });
+        window['EventService'] = this._channels;
         return responses;
     }
 }

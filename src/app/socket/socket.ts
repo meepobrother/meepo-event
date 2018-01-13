@@ -16,7 +16,11 @@ export class SocketEvent extends EventEmitter<any> {
     }
 }
 
-export class SocketRoom<T> {
+export interface Room {
+    name?: string;
+}
+
+export class SocketRoom<T> implements Room {
     event: SocketEvent;
     constructor(public name: string) {
         this.event = new SocketEvent();
@@ -95,8 +99,14 @@ export class SocketService {
         let json = {};
         this.rooms.map((room) => {
             if (!json[room.name]) {
-                res.push(room);
-                json[room.name] = 1;
+                if (room instanceof SocketRoom) {
+                    res.push(room);
+                    json[room.name] = 1;
+                } else {
+                    room = new SocketRoom(room.name);
+                    res.push(room);
+                    json[room.name] = 1;
+                }
             }
         });
         this.rooms = res;
@@ -108,7 +118,7 @@ export class SocketService {
     exports: []
 })
 export class SocketModule {
-    static forRoot(room?: SocketRoom<any>): ModuleWithProviders {
+    static forRoot(room?: Room): ModuleWithProviders {
         return {
             ngModule: SocketModule,
             providers: [
@@ -117,17 +127,17 @@ export class SocketModule {
             ]
         }
     }
-    static forChild(room?: SocketRoom<any>): ModuleWithProviders {
+    static forChild(room?: Room): ModuleWithProviders {
         return {
             ngModule: SocketModule,
             providers: [
                 provideRooms(room)
             ]
-        };
+        }
     }
 }
 
-export function provideRooms(room: SocketRoom<any> = new SocketRoom('root')): any {
+export function provideRooms(room: Room = { name: 'root' }): any {
     return {
         provide: SOCKET_ROOMS,
         multi: true,

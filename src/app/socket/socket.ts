@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 
 export const SOCKET_ROOMS = new InjectionToken<SocketRoom<any>[]>('SOCKET_ROOMS');
-export const SOCKET_UNIQUE = new InjectionToken<boolean>('SOCKET_UNIQUE');
 
 // 所有房间
 export type SocketRooms = SocketRoom<any>[];
@@ -55,12 +54,9 @@ export class SocketRoom<T> {
 @Injectable()
 export class SocketService {
     constructor(
-        @Inject(SOCKET_ROOMS) public rooms: SocketRooms,
-        @Inject(SOCKET_UNIQUE) public unique: boolean
+        @Inject(SOCKET_ROOMS) public rooms: any
     ) {
-        if (this.unique) {
-            this._unique();
-        }
+        this._unique();
         console.log(this);
     }
     // 监听事件
@@ -112,13 +108,12 @@ export class SocketService {
     exports: []
 })
 export class SocketModule {
-    static forRoot(room?: SocketRoom<any>, unique: boolean = true): ModuleWithProviders {
+    static forRoot(room?: SocketRoom<any>): ModuleWithProviders {
         return {
             ngModule: SocketModule,
             providers: [
                 SocketService,
-                provideRooms(room),
-                { provide: SOCKET_UNIQUE, useValue: unique }
+                provideRooms(room)
             ]
         }
     }

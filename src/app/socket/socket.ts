@@ -4,7 +4,7 @@ import {
     Injectable, InjectionToken, Inject,
     NgModule, ModuleWithProviders
 } from '@angular/core';
-
+import { Observable } from 'rxjs/Observable';
 export const SOCKET_ROOMS = new InjectionToken<SocketRoom<any>[]>('SOCKET_ROOMS');
 
 // 所有房间
@@ -46,7 +46,7 @@ export class SocketRoom<T> {
         this.event.error(err);
     }
 
-    asObservable() {
+    asObservable(): Observable<any> {
         return this.event.asObservable();
     }
 }

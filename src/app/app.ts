@@ -41,4 +41,4 @@ export { TimeOutService } from './timeout';
 export { SubjectService } from './subject';
 export { VERSION, VERSION_CHANGE } from './dbs';
 // socket event
-export { SocketEvent, SocketModule, SocketRoom, SOCKET_ROOMS, SocketRooms, SocketService } from './socket/socket';
+export { SocketEvent, SocketModule, SocketRoom, SOCKET_ROOMS, SocketRooms, SocketService, provideRooms } from './socket/socket';

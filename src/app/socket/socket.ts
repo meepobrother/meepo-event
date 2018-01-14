@@ -125,7 +125,7 @@ export class SocketModule {
                 {
                     provide: SocketService,
                     useFactory: SocketServiceFactory,
-                    deps: [[Optional(), SkipSelf(), SocketService], SOCKET_ROOMS]
+                    deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketService]]
                 },
                 provideRooms(room)
             ]

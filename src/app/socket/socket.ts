@@ -2,7 +2,7 @@
 import {
     Injector, EventEmitter,
     Injectable, InjectionToken, Inject,
-    NgModule, ModuleWithProviders
+    NgModule, ModuleWithProviders, SkipSelf, Optional
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 export const SOCKET_ROOMS = new InjectionToken<SocketRoom<any>[]>('SOCKET_ROOMS');
@@ -122,7 +122,11 @@ export class SocketModule {
         return {
             ngModule: SocketModule,
             providers: [
-                SocketService,
+                {
+                    provide: SocketService,
+                    useFactory: SocketServiceFactory,
+                    deps: [[Optional(), SkipSelf(), SocketService], SOCKET_ROOMS]
+                },
                 provideRooms(room)
             ]
         }
@@ -143,4 +147,8 @@ export function provideRooms(room: Room = { name: 'root' }): any {
         multi: true,
         useValue: room
     }
+}
+
+export function SocketServiceFactory(rooms: SocketRooms, socketService: SocketService) {
+    return socketService || new SocketService(rooms);
 }

@@ -3,7 +3,7 @@ import { NgModule, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { EventModule, SocketRoom, SocketModule } from '../../src/app/app';
+import { SocketRoom, SocketModule } from 'meepo-event';
 import { IndexModule } from './index/index';
 
 
@@ -13,7 +13,6 @@ import { IndexModule } from './index/index';
   ],
   imports: [
     BrowserModule,
-    EventModule.forRoot(),
     RouterModule.forRoot([{
       path: '',
       pathMatch: 'full',

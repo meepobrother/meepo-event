@@ -133,13 +133,13 @@ export class SocketModule {
             ngModule: SocketModule,
             providers: [
                 {
-                    provide: SocketService,
-                    useExisting: SocketServiceDefault
-                },
-                {
                     provide: SocketServiceDefault,
                     useFactory: SocketServiceFactory,
                     deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketServiceDefault]]
+                },
+                {
+                    provide: SocketService,
+                    useExisting: SocketServiceDefault
                 },
                 provideRooms(room)
             ]
@@ -150,13 +150,13 @@ export class SocketModule {
             ngModule: SocketModule,
             providers: [
                 {
-                    provide: SocketService,
-                    useExisting: SocketServiceDefault
-                },
-                {
                     provide: SocketServiceDefault,
                     useFactory: SocketServiceFactory,
                     deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketServiceDefault]]
+                },
+                {
+                    provide: SocketService,
+                    useExisting: SocketServiceDefault
                 },
                 provideRooms(room)
             ]

@@ -1,7 +1,7 @@
 import { NgModule, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { SocketModule, SocketRoom, SocketService, SocketServiceDefault } from '../../../src/app/app';
+import { SocketModule, SocketRoom, SocketService, SocketServiceDefault } from 'meepo-event';
 
 @Component({
     selector: 'index-page',

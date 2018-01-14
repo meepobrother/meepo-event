@@ -20,6 +20,12 @@ import { IndexModule } from './index/index';
       redirectTo: 'index'
     }], { useHash: true }),
     IndexModule,
+    SocketModule.forRoot(),
+    SocketModule.forRoot(),
+    SocketModule.forRoot(),
+    SocketModule.forRoot(),
+    SocketModule.forRoot(),
+    SocketModule.forRoot(),
     SocketModule.forRoot()
   ],
   providers: [],

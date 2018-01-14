@@ -55,35 +55,45 @@ export class SocketRoom<T> implements Room {
     }
 }
 
+export abstract class SocketService {
+    rooms: SocketRooms;
+    // 监听事件
+    abstract on(name: string, fn: Function): void;
+    // 发送事件
+    abstract emit<T>(name: string, data: T): void;
+    // 广播事件
+    abstract broadcast<T>(data: T): void;
+    // 根据名字查找room
+    abstract getRoom(name: string): SocketRooms;
+}
+
 @Injectable()
-export class SocketService {
+export class SocketServiceDefault extends SocketService {
+    time: any = new Date().getTime();
     constructor(
         @Inject(SOCKET_ROOMS) public rooms: any
     ) {
+        super();
         this._unique();
-        console.log(this);
+        console.log('SocketServiceDefault', this.time);
     }
-    // 监听事件
     on(name: string, fn: Function) {
         let rooms: SocketRooms = this.getRoom(name);
         rooms.map(room => {
             room.subscribe(fn);
         });
     }
-    // 发送事件
     emit<T>(name: string, data: T): void {
         let rooms: SocketRooms = this.getRoom(name);
         rooms.map(room => {
             room.next(data);
         });
     }
-
-    broadcast<T>(data: T) {
+    broadcast<T>(data: T): void {
         this.rooms.map(room => {
             room.next(data);
         });
     }
-    // 根据名字查找room，允许重名
     getRoom(name: string): SocketRooms {
         let rooms: any[] = [];
         this.rooms.map(room => {
@@ -124,8 +134,12 @@ export class SocketModule {
             providers: [
                 {
                     provide: SocketService,
+                    useExisting: SocketServiceDefault
+                },
+                {
+                    provide: SocketServiceDefault,
                     useFactory: SocketServiceFactory,
-                    deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketService]]
+                    deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketServiceDefault]]
                 },
                 provideRooms(room)
             ]
@@ -137,8 +151,12 @@ export class SocketModule {
             providers: [
                 {
                     provide: SocketService,
+                    useExisting: SocketServiceDefault
+                },
+                {
+                    provide: SocketServiceDefault,
                     useFactory: SocketServiceFactory,
-                    deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketService]]
+                    deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketServiceDefault]]
                 },
                 provideRooms(room)
             ]
@@ -155,5 +173,5 @@ export function provideRooms(room: Room = { name: 'root' }): any {
 }
 
 export function SocketServiceFactory(rooms: SocketRooms, socketService: SocketService) {
-    return socketService || new SocketService(rooms);
+    return socketService || new SocketServiceDefault(rooms);
 }

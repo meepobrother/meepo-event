@@ -1,13 +1,19 @@
 import { NgModule, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { SocketModule, SocketRoom, SocketService } from '../../../src/app/app';
+import { SocketModule, SocketRoom, SocketService, SocketServiceDefault } from '../../../src/app/app';
 
 @Component({
     selector: 'index-page',
     template: `
         index
-    `
+    `,
+    providers: [
+        {
+            provide: SocketService,
+            useExisting: SocketServiceDefault
+        },
+    ]
 })
 export class IndexComponent implements OnInit {
     constructor(
@@ -18,7 +24,7 @@ export class IndexComponent implements OnInit {
         });
     }
     ngOnInit() {
-        
+
     }
 }
 
@@ -28,7 +34,14 @@ export class IndexComponent implements OnInit {
             path: 'index',
             component: IndexComponent
         }]),
-        SocketModule.forChild()
+        SocketModule.forRoot(),
+        SocketModule.forRoot(),
+        SocketModule.forRoot(),
+        SocketModule.forRoot(),
+        SocketModule.forRoot(),
+        SocketModule.forRoot(),
+        SocketModule.forRoot(),
+        SocketModule.forRoot()
     ],
     exports: [],
     declarations: [IndexComponent],

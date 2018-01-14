@@ -135,6 +135,11 @@ export class SocketModule {
         return {
             ngModule: SocketModule,
             providers: [
+                {
+                    provide: SocketService,
+                    useFactory: SocketServiceFactory,
+                    deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketService]]
+                },
                 provideRooms(room)
             ]
         }

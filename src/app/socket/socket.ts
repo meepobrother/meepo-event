@@ -125,22 +125,21 @@ export class SocketServiceDefault extends SocketService {
 
 @NgModule({
     declarations: [],
-    exports: []
+    exports: [],
+    providers: [{
+        provide: SocketServiceDefault,
+        useFactory: SocketServiceFactory,
+        deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketServiceDefault]]
+    }, {
+        provide: SocketService,
+        useExisting: SocketServiceDefault
+    }]
 })
 export class SocketModule {
     static forRoot(room?: Room): ModuleWithProviders {
         return {
             ngModule: SocketModule,
             providers: [
-                {
-                    provide: SocketServiceDefault,
-                    useFactory: SocketServiceFactory,
-                    deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketServiceDefault]]
-                },
-                {
-                    provide: SocketService,
-                    useExisting: SocketServiceDefault
-                },
                 provideRooms(room)
             ]
         }
@@ -149,15 +148,6 @@ export class SocketModule {
         return {
             ngModule: SocketModule,
             providers: [
-                {
-                    provide: SocketServiceDefault,
-                    useFactory: SocketServiceFactory,
-                    deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketServiceDefault]]
-                },
-                {
-                    provide: SocketService,
-                    useExisting: SocketServiceDefault
-                },
                 provideRooms(room)
             ]
         }

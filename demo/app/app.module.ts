@@ -3,7 +3,7 @@ import { NgModule, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { SocketRoom, SocketModule } from 'meepo-event';
+import { SocketRoom, SocketModule } from '../../src/app/app';
 import { IndexModule } from './index/index';
 
 

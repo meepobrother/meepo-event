@@ -76,7 +76,7 @@ export class SocketService {
         // super();
         this.rooms = this.rooms || [];
         this._unique();
-        console.log('SocketServiceDefault', this.time);
+        console.log('SocketServiceDefault', this);
     }
     on(name: string, fn: Function) {
         let rooms: SocketRooms = this.getRoom(name);

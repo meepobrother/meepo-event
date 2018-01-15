@@ -4,6 +4,7 @@ import { WinEventService } from './win.event';
 import { IntervalService } from './interval';
 import { TimeOutService } from './timeout';
 import { SubjectService } from './subject';
+
 import { StoreModule } from 'meepo-store';
 import { UuidModule } from 'meepo-uuid';
 import { MeepoCoreServiceModule } from 'meepo-core';

@@ -234,6 +234,8 @@ let globals = {
     'meepo-base': 'meepo-base',
     'meepo-core': 'meepo-core',
     'meepo-store': 'meepo-store',
+    'meepo-runner': 'meepo-runner',
+    'meepo-uuid': 'meepo-uuid',
     
 };
 

@@ -55,25 +55,26 @@ export class SocketRoom<T> implements Room {
     }
 }
 
-export abstract class SocketService {
-    rooms: SocketRooms;
-    // 监听事件
-    abstract on(name: string, fn: Function): void;
-    // 发送事件
-    abstract emit<T>(name: string, data: T): void;
-    // 广播事件
-    abstract broadcast<T>(data: T): void;
-    // 根据名字查找room
-    abstract getRoom(name: string): SocketRooms;
-}
+// export abstract class SocketService {
+//     rooms: SocketRooms;
+//     // 监听事件
+//     abstract on(name: string, fn: Function): void;
+//     // 发送事件
+//     abstract emit<T>(name: string, data: T): void;
+//     // 广播事件
+//     abstract broadcast<T>(data: T): void;
+//     // 根据名字查找room
+//     abstract getRoom(name: string): SocketRooms;
+// }
 
 @Injectable()
-export class SocketServiceDefault extends SocketService {
+export class SocketService {
     time: any = new Date().getTime();
     constructor(
-        @Inject(SOCKET_ROOMS) public rooms: any
+        @Optional() @Inject(SOCKET_ROOMS) public rooms: any
     ) {
-        super();
+        // super();
+        this.rooms = this.rooms || [];
         this._unique();
         console.log('SocketServiceDefault', this.time);
     }
@@ -127,12 +128,9 @@ export class SocketServiceDefault extends SocketService {
     declarations: [],
     exports: [],
     providers: [{
-        provide: SocketServiceDefault,
-        useFactory: SocketServiceFactory,
-        deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketServiceDefault]]
-    }, {
         provide: SocketService,
-        useExisting: SocketServiceDefault
+        useFactory: SocketServiceFactory,
+        deps: [SOCKET_ROOMS, [new Optional(), new SkipSelf(), SocketService]]
     }]
 })
 export class SocketModule {
@@ -163,5 +161,5 @@ export function provideRooms(room: Room = { name: 'root' }): any {
 }
 
 export function SocketServiceFactory(rooms: SocketRooms, socketService: SocketService) {
-    return socketService || new SocketServiceDefault(rooms);
+    return socketService || new SocketService(rooms);
 }

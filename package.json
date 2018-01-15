@@ -1,6 +1,6 @@
 {
     "name": "meepo-event",
-    "version": "1.3.6",
+    "version": "1.3.7",
     "description": "runner for angular",
     "main": "./bundles/meepo.umd.js",
     "module": "./esm5/meepo.js",
@@ -54,8 +54,8 @@
         "zone.js": "0.8.4"
     },
     "dependencies": {
-        "meepo-core": "latest",
-        "meepo-store": "latest",
-        "meepo-uuid": "latest"
+        "meepo-core": "*",
+        "meepo-store": "*",
+        "meepo-uuid": "*"
     }
 }
